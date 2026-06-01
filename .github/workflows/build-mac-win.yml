@@ -33,12 +33,11 @@ jobs:
       - name: Instalar Rust
         uses: dtolnay/rust-toolchain@stable
 
-	- name: Limpiar y reinstalar dependencias
-	shell: bash
+      - name: Limpiar y reinstalar dependencias
 	run: |
-		rm -rf node_modules
-		npm ci --prefer-offline --no-audit
-		npm cache clean --force
+	    if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }
+	    npm ci --prefer-offline --no-audit
+	    npm cache clean --force
 
       - name: Verificar Node.js
         run: node --version
