@@ -35,10 +35,8 @@ jobs:
 
       - name: Limpiar y reinstalar dependencias
         run: |
-          rm -rf node_modules
-          rm -f package-lock.json
+          npm ci --prefer-offline --no-audit
           npm cache clean --force
-          npm install
 
       - name: Verificar Node.js
         run: node --version
