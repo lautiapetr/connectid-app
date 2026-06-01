@@ -13,7 +13,6 @@ jobs:
     permissions:
       contents: write
     
-    # ⚠️ REVISIÓN AQUÍ: Esto le dice a GitHub que use el entorno que creaste
     environment: '.env' 
     
     strategy:
@@ -28,19 +27,18 @@ jobs:
       - name: Instalar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22 # 🚀 Actualizado a Node 22 para cumplir con Vite
 
       - name: Instalar Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Instalar dependencias de Node
-        run: npm install
+        run: npm ci # 🛠️ Cambiado a 'npm ci' para una instalación limpia y exacta en CI
 
       - name: Compilar y añadir a la Release existente
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Ahora sí, al haber declarado el environment arriba, leerá estos valores de ahí adentro:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
