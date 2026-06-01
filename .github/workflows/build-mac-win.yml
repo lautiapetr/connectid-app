@@ -37,10 +37,14 @@ jobs:
         run: |
           rm -rf node_modules
           rm -f package-lock.json
+          npm cache clean --force
           npm install
 
+      - name: Verificar Node.js
+        run: node --version
+
       - name: Compilar y añadir a la Release existente
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@v0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -53,4 +57,3 @@ jobs:
           tagName: ${{ github.event.inputs.tag }}
           releaseDraft: false
           prerelease: false
-          node-version: 22
