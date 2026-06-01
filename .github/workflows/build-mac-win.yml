@@ -34,10 +34,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Limpiar y reinstalar dependencias
-	run: |
-	    if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }
-	    npm ci --prefer-offline --no-audit
-	    npm cache clean --force
+        run: |
+          if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }
+          npm ci --prefer-offline --no-audit
+          npm cache clean --force
 
       - name: Verificar Node.js
         run: node --version
