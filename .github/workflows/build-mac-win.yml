@@ -1,0 +1,44 @@
+name: Compilar Mac y Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Escribe el nombre EXACTO del tag de tu release actual (ej. v1.0.0)'
+        required: true
+        default: 'v1.0.0-beta'
+
+jobs:
+  build-and-upload:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # Solo usamos Mac y Windows, omitimos Ubuntu para no duplicar lo tuyo
+        platform: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Instalar dependencias de Node
+        run: npm install
+
+      - name: Compilar y añadir a la Release existente
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Esto le dice a Tauri que busque tu tag existente y le agregue los archivos
+          tagName: ${{ github.event.inputs.tag }}
+          releaseDraft: false
+          prerelease: false
