@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Habilita el modo oscuro manual por clase (.dark) */
+@variant dark (&:where(.dark, .dark *));
+
+/* Define la tipografía limpia base */
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* Forzar que el contenedor raíz de Tauri ocupe el 100% de la ventana sin scrollbars */
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Transiciones visuales suaves */
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
