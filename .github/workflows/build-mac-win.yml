@@ -35,7 +35,7 @@ jobs:
 
       - name: Limpiar y reinstalar dependencias
         run: |
-          if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }
+          npx rimraf node_modules
           npm ci --prefer-offline --no-audit
           npm cache clean --force
 
