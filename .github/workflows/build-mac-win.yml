@@ -49,3 +49,4 @@ jobs:
           tagName: ${{ github.event.inputs.tag }}
           releaseDraft: false
           prerelease: false
+          node-version: 22
