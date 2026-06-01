@@ -12,10 +12,13 @@ jobs:
   build-and-upload:
     permissions:
       contents: write
+    
+    # ⚠️ REVISIÓN AQUÍ: Esto le dice a GitHub que use el entorno que creaste
+    environment: '.env' 
+    
     strategy:
       fail-fast: false
       matrix:
-        # Solo usamos Mac y Windows, omitimos Ubuntu para no duplicar lo tuyo
         platform: [macos-latest, windows-latest]
 
     runs-on: ${{ matrix.platform }}
@@ -37,8 +40,14 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Ahora sí, al haber declarado el environment arriba, leerá estos valores de ahí adentro:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
         with:
-          # Esto le dice a Tauri que busque tu tag existente y le agregue los archivos
           tagName: ${{ github.event.inputs.tag }}
           releaseDraft: false
           prerelease: false
