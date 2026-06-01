@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Escribe el nombre EXACTO del tag de tu release actual (ej. v1.0.0)'
+        description: 'v1.0.0-beta'
         required: true
         default: 'v1.0.0-beta'
 
