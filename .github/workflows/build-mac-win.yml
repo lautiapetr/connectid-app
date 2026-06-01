@@ -27,13 +27,17 @@ jobs:
       - name: Instalar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22 # 🚀 Actualizado a Node 22 para cumplir con Vite
+          node-version: 22
+          cache: 'npm'
 
       - name: Instalar Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Instalar dependencias de Node
-        run: npm ci # 🛠️ Cambiado a 'npm ci' para una instalación limpia y exacta en CI
+      - name: Limpiar y reinstalar dependencias
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
 
       - name: Compilar y añadir a la Release existente
         uses: tauri-apps/tauri-action@v0
