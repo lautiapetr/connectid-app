@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'v1.0.0-beta'
+        description: 'Escribe el nombre EXACTO del tag de tu release actual (ej. v1.0.0)'
         required: true
         default: 'v1.0.0-beta'
 
@@ -34,8 +34,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Limpiar y reinstalar dependencias
-      	shell: bash
+        shell: bash
         run: |
+          rm -rf node_modules
           npm ci --prefer-offline --no-audit
           npm cache clean --force
 
@@ -43,7 +44,7 @@ jobs:
         run: node --version
 
       - name: Compilar y añadir a la Release existente
-        uses: tauri-apps/tauri-action@v0.5
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -54,5 +55,6 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
         with:
           tagName: ${{ github.event.inputs.tag }}
+          nodeVersion: 22
           releaseDraft: false
           prerelease: false
